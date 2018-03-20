@@ -1,6 +1,6 @@
-fileTypes: [md, mdown, markdown, markdn]
+fileTypes: [md, mdown, markdown, markdn, pandoc]
 keyEquivalent: ^~M
-name: Markdown
+name: Pandoc Markdown
 patterns:
 - {include: '#frontMatter'}
 - {include: '#block'}
@@ -161,6 +161,10 @@ repository:
     - {include: '#link-inline'}
     - {include: '#link-ref'}
     - {include: '#link-ref-literal'}
+    - {include: '#citation-bracketed'}
+    - {include: '#citation-intext'}
+    - {include: '#footnote-inline'}
+    - {include: '#footnote-ref'}
     repository:
       ampersand:
         comment: "Markdown will convert this for us. We match it so that the HTML grammar will not mark it up as invalid."
@@ -231,6 +235,10 @@ repository:
         - {include: '#image-ref'}
         - {include: '#link-ref-literal'}
         - {include: '#link-ref'}
+        - {include: '#citation-bracketed'}
+        - {include: '#citation-intext'}
+        - {include: '#footnote-inline'}
+        - {include: '#footnote-ref'}
       bracket:
         comment: "Markdown will convert this for us. We match it so that the HTML grammar will not mark it up as invalid."
         match: '<(?![a-z/?\$!])'
@@ -341,6 +349,10 @@ repository:
         - {include: '#image-ref'}
         - {include: '#link-ref-literal'}
         - {include: '#link-ref'}
+        - {include: '#citation-bracketed'}
+        - {include: '#citation-intext'}
+        - {include: '#footnote-inline'}
+        - {include: '#footnote-ref'}
       link-email:
         captures:
           '1': {name: punctuation.definition.link.markdown}
@@ -404,11 +416,46 @@ repository:
           '6': {name: punctuation.definition.constant.end.markdown}
         match: (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(\])
         name: meta.link.reference.literal.markdown
+      citation-bracketed:
+        name: meta.citation.bracketed.markdown
+        begin: (\[)(?=.*?-?@[A-z_][\w:.#$%&\-+?<>~/]*.*?[^\\])
+        end: (\])
+        patterns:
+        - match: ([\w\t :.#$%&+?<>~/-]*)?-?@([\w:.#$%&+?<>~/-]+),?([\w\t :.#$%&+?<>~/\\-]*)?
+          captures:
+            '1': {name: string.other.link.title.markdown}
+            '2': {name: constant.other.reference.link.markdown}
+            '3': {name: string.other.link.title.markdown}
+        - {include: '#inline'}
+        beginCaptures:
+          '1': {name: punctuation.definition.string.begin.markdown}
+        endCaptures:
+          '1': {name: punctuation.definition.string.end.markdown}
+      citation-intext:
+        name: meta.citation.intext.markdown
+        match: -?@([^\s\[]+)(\s*\[(.*)])?
+        captures:
+          '1': {name: constant.other.reference.link.markdown}
+          '3': {name: string.other.link.title.markdown}
+      footnote-inline:
+        name: meta.footnote.inline.markdown
+        contentName: string.other.link.title.markdown
+        begin: \^\[
+        end: \]
+        patterns:
+          - {include: '#inline'}
+      footnote-ref:
+        name: meta.footnote.ref.markdown
+        match: (\[)(\^[\S]+)(])
+        captures:
+          '1': {name: punctuation.definition.string.begin.markdown}
+          '2': {name: constant.other.reference.link.markdown}
+          '3': {name: punctuation.definition.string.end.markdown}
       raw:
         captures:
           '1': {name: punctuation.definition.raw.markdown}
           '3': {name: punctuation.definition.raw.markdown}
         match: (`+)([^`]|(?!(?<!`)\1(?!`))`)*+(\1)
         name: markup.inline.raw.string.markdown
-scopeName: text.html.markdown
-uuid: 0A1D9874-B448-11D9-BD50-000D93B6E43C
+scopeName: text.html.pfm
+# uuid: 0A1D9874-B448-11D9-BD50-000D93B6E43C
