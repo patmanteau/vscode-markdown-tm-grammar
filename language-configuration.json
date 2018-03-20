@@ -33,18 +33,6 @@
             "notIn": [
                 "string"
             ]
-        },
-        {
-            "open": "*",
-            "close": "*"
-        },
-        {
-            "open": "_",
-            "close": "_"
-        },
-        {
-            "open": "$",
-            "close": "$"
         }
     ],
     // symbols that that can be used to surround a selection
