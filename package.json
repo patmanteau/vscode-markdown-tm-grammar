@@ -2,7 +2,7 @@
   "name": "vscode-pfm",
   "displayName": "Pandoc Markdown",
   "description": "Syntax highlighting for Pandoc's Markdown",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "publisher": "patmanteau",
   "engines": {
     "vscode": "^1.21.0"
